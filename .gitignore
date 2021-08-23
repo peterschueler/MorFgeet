@@ -10,3 +10,8 @@ media
 # Python
 
 *.py[cod]
+
+# Environments
+
+_environ.py
+.direnv/
