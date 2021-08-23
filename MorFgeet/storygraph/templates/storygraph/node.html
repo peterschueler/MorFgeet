@@ -1,0 +1,9 @@
+<h2>{{ node.title }}</h2>
+<p>{{ node.body }}</p>
+
+<ul>
+{% for link in node.choices.all %}
+    <li><a href="{% url 'node_display' link.next_node %}">{{ link.text }}</li>
+{% endfor %}
+</ul>
+<a href="{% url 'main' %}">Quit Game?</a>
