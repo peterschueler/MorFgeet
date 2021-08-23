@@ -37,9 +37,9 @@ class Node(models.Model):
 
 class Link(models.Model):
     node = models.ForeignKey(
-        "Node", on_delete=models.CASCADE, related_name="links"
+        "Node", on_delete=models.CASCADE, related_name="choices"
     )
-    nextNode = models.ForeignKey(
+    next_node = models.ForeignKey(
         "Node", on_delete=models.SET_NULL, null=True, blank=True
     )
 
