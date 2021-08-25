@@ -3,7 +3,13 @@
 
 <ul>
 {% for link in node.choices.all %}
-    <li><a href="{% url 'node_display' link.next_node %}">{{ link.text }}</li>
+    <li>
+        {% if link.next_node %}
+            <a href="{% url 'node_display' link.next_node %}">{{ link.text }}</a>
+        {% else %}
+            {{ link.text }}
+        {% endif %}
+    </li>
 {% endfor %}
 </ul>
 <a href="{% url 'main' %}">Quit Game?</a>
