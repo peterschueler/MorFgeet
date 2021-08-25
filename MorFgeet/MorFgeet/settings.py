@@ -39,7 +39,7 @@ ROOT_URLCONF = "MorFgeet.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [Path(BASE_DIR).joinpath("MorFgeet/templates/")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
