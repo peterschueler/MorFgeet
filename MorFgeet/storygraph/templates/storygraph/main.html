@@ -9,9 +9,11 @@
     <div class="stars"></div>
     <div class="stars"></div>
 
-    <h1>Hello, world.</h1>
+    <div class="text-container">
+        <h1 class="glow-text">Welcome to MorFgeet!</h1>
 
-<a href="{% url 'node_display' node.id %}">Start Game?</a>
+        <a href="{% url 'node_display' node.id %}">Start Game?</a>
+    </div>
 </div>
 
 {% endblock %}
