@@ -13,6 +13,9 @@ STATIC_URL = env.STATIC_URL
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_ROOT = Path(BASE_DIR).joinpath("static")
+STATICFILES_DIRS = (Path(BASE_DIR).joinpath("storygraph/static"),)
+
 
 INSTALLED_APPS = [
     "django.contrib.admin",
