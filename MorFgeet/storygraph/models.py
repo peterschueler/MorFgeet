@@ -1,6 +1,25 @@
 import uuid
 
+from django.core.exceptions import ValidationError
 from django.db import models
+
+
+# from https://stackoverflow.com/questions/49735906/how-to-implement-singleton-in-django
+class SingletonModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        self.__class__.objects.exclude(id=self.id).delete()
+        self.id = 1
+        super(SingletonModel, self).save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        try:
+            return cls.objects.get()
+        except cls.DoesNotExist:
+            return cls
 
 
 class DataBlock(models.Model):
@@ -50,3 +69,39 @@ class Link(models.Model):
     @property
     def text(self):
         return self.data_block.text
+
+
+class CorruptionManager(models.Manager):
+    def increase(self, value):
+        c = Corruption.objects.first()
+        proposed_level = c.level + value
+        c.level = min(proposed_level, Corruption.MAX_LEVEL)
+        c.save()
+
+    def decrease(self, value):
+        c = Corruption.objects.first()
+        proposed_level = c.level - value
+        c.level = max(proposed_level, Corruption.MIN_LEVEL)
+        c.save()
+
+    def current_level(self):
+        return Corruption.objects.first().level
+
+    def bulk_create(self, objs, batch_size=None, ignore_conflicts=False):
+        # bulk_create should just not work on this object,
+        # because there can only be be one.
+        raise ValidationError(
+            "You can't use bulk_create, because there can be only one!"
+        )
+
+
+class Corruption(SingletonModel):
+    MIN_LEVEL = 0
+    MAX_LEVEL = 10
+
+    objects = CorruptionManager()
+
+    level = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Corruption"
