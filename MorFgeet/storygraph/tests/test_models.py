@@ -1,6 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
-from storygraph.models import Corruption
+from storygraph.models import Corruption, Sound
+from storygraph.tests.factories import SoundFactory
 
 
 @pytest.mark.parametrize(
@@ -55,3 +56,25 @@ def test__single_corruption():
         )
 
     assert Corruption.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test__sound_static_is_undeletable():
+    """
+    Ensure that the static sound exists and is undeleteable
+    """
+    sound_01 = SoundFactory(title="__static__")
+    assert Sound.objects.count() == 1
+
+    sound_01.delete()
+
+    assert Sound.objects.first().title == "__static__"
+    assert Sound.objects.count() == 1
+
+    sound_02 = SoundFactory(title="whatever")
+
+    assert Sound.objects.count() == 2
+
+    sound_02.delete()
+
+    assert Sound.objects.count() == 1

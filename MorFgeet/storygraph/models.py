@@ -105,3 +105,16 @@ class Corruption(SingletonModel):
 
     class Meta:
         verbose_name = "Corruption"
+
+
+class Sound(models.Model):
+    title = models.CharField(max_length=150, unique=True)
+    file = models.FileField(upload_to="uploads/sounds")
+
+    def delete(self):
+        # Yes, if someone has access to the database, they can delete it.
+        # I'm not worried about that, I just want to make sure that *I* don't
+        # accidentally call `delete()` on the static sound in the shell.
+        if self.title == "__static__":
+            return
+        super().delete()

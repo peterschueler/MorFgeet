@@ -96,3 +96,13 @@ a {
     -webkit-text-stroke-width: 0.01em;
     -webkit-text-stroke-color: lightblue;
 }
+
+/* Audio Controls */
+
+.audio-button {
+	border-radius: 10px;
+	background: none;
+	border: none;
+	filter: drop-shadow(0px 0px 1px rgba(0,0,0,.6))
+          drop-shadow(0px 0px 1.2px rgba(0,0,0,.6));
+}

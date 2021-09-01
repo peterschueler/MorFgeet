@@ -9,6 +9,7 @@ let
 		isort
 		django_3
 		pytest-django
+		pytest-factoryboy
 	];
 	py-data = python39.withPackages game-packages;
 in mkShell {

@@ -1,0 +1,17 @@
+{% load static %}
+
+<div class="player-box">
+	<audio src="{{ sound.file }}" class="player" preload="metadata">
+	</audio>
+	<div class="player-controls">
+		<button class="play audio-button" aria-label="Play Soundtrack">
+			<svg width="30px" height="30px" viewBox="0 0 4267 4267">
+				<g transform="matrix(-0.000548567,1.15446,-0.84241,-0.000400289,3881.96,-576.737)">
+					<path d="M2348.86,168.164L4039.58,3979.17L658.134,3979.17L2348.86,168.164Z" />
+				</g>
+			</svg>
+		</button>
+	</div>
+</div>
+
+<script src="{% static 'js/player.js' %}" async loop></script>
