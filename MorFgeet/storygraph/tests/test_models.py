@@ -1,7 +1,21 @@
 import pytest
 from django.core.exceptions import ValidationError
-from storygraph.models import Corruption, Sound
-from storygraph.tests.factories import SoundFactory
+from storygraph.models import Corruption, DataBlock, Sound
+from storygraph.tests.factories import LinkFactory, SoundFactory
+
+
+@pytest.mark.django_db
+def test__link_add_text():
+    link = LinkFactory()
+    text = "We have to get back, Kate!"
+
+    assert DataBlock.objects.count() == 0
+
+    link.add_text(text)
+
+    assert DataBlock.objects.count() == 1
+    assert DataBlock.objects.first().link == link
+    assert DataBlock.objects.first().text == text
 
 
 @pytest.mark.parametrize(

@@ -45,6 +45,7 @@ class Node(models.Model):
     position = models.IntegerField(default=0, unique=True)
     title = models.CharField(max_length=250, blank=True, null=True)
     body = models.TextField(blank=True, null=True)
+    corruption_value = models.IntegerField(default=0)
 
     class Meta:
         verbose_name = "Node"
@@ -65,6 +66,11 @@ class Link(models.Model):
     class Meta:
         verbose_name = "Link"
         verbose_name_plural = "Links"
+
+    def add_text(self, text: str):
+        data_block = DataBlock.objects.get_or_create(link=self)
+        data_block[0].text = text
+        data_block[0].save()
 
     @property
     def text(self):
