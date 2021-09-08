@@ -77,7 +77,7 @@ def test__sound_static_is_undeletable():
     """
     Ensure that the static sound exists and is undeleteable
     """
-    sound_01 = SoundFactory(title="__static__")
+    sound_01 = Sound.objects.get_or_create(title="__static__")[0]
     assert Sound.objects.count() == 1
 
     sound_01.delete()

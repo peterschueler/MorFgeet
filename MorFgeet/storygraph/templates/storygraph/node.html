@@ -19,7 +19,9 @@
         {% for link in node.choices.all %}
             <li>
                 {% if link.next_node %}
-                    <a href="{% url 'node_display' link.next_node %}">{{ link.text }}</a>
+                    <a href="{% url 'node_display' link.next_node.id %}">
+                        {{ link.text }}
+                    </a>
                 {% else %}
                     {{ link.text }}
                 {% endif %}
