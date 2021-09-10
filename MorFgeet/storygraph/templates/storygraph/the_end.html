@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="space">
+    <div class="text-container">
+        <h2 class="glow-text">{{ node.title }}</h2>
+        <p class="corrupted-text">{{ node.body }}</p>
+        <div class="navigation-bar">
+            <div class="navigation-box">
+                <a href="{% url 'main' %}">Restart Game?</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% include "storygraph/player.html" %}
+
+{% endblock %}

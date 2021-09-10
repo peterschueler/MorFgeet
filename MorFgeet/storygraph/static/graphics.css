@@ -23,7 +23,7 @@ body {
         radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0,0,0,0));
     background-repeat: repeat;
     background-size: 200px 200px;
-    animation: zoom 5s infinite;
+    animation: zoom 10s infinite;
     opacity: 0;
 }
 
@@ -67,7 +67,7 @@ body {
     }
 }
 
-/* Containers */
+/* Containers & Interface */
 
 .text-container {
     width: 50%;
@@ -90,11 +90,23 @@ body {
     -webkit-text-stroke-color: lightgreen;
 }
 
-a {
-    color: blue;
-    text-shadow: 0 0 40px #54FEFE;
-    -webkit-text-stroke-width: 0.01em;
-    -webkit-text-stroke-color: lightblue;
+p {
+    text-align: left;
+}
+
+li {
+    list-style: none;
+    text-align: left;
+}
+
+.navigation-bar {
+    display: flex;
+    margin-top: 4em;
+
+}
+
+.navigation-box {
+    flex: 2;
 }
 
 /* Audio Controls */

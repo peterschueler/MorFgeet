@@ -1,25 +1,57 @@
 {% extends "base.html" %}
+{% load static_symbols %}
 
 {% block content %}
 
+<style>
+    .corrupted-text {
+        opacity: 1;
+        animation: corruptText 30s ease-out alternate infinite;
+    }
+    @keyframes corruptText {
+        30% {
+            opacity: 0.8;
+        }
+        50% {
+            opacity: calc({{ node.corruption_value }}) + 1;
+        }
+        60% {
+            opacity: 1;
+        }
+
+        70% {
+            opacity: 0.4;
+        }
+
+        100% {
+            opacity: calc({{ node.corruption_value }}/10 + 0.1);
+        }
+    }
+</style>
+
 <div id="space">
-    <div class="stars"></div>
-    <div class="stars"></div>
-    <div class="stars"></div>
-    <div class="stars"></div>
-    <div class="stars"></div>
-    <div class="stars"></div>
+    {% if global_corruption < 3 %}
+        <div class="stars"></div>
+        <div class="stars"></div>
+        <div class="stars"></div>
+        <div class="stars"></div>
+    {% endif %}
+    {% if global_corruption < 5 %}
+        <div class="stars"></div>
+    {% endif %}
+        <div class="stars"></div>
 
     <div class="text-container">
-
-        <h2 class="glow-text">{{ node.title }}</h2>
-        <p>{{ node.body }}</p>
+        {% if node.title %}
+            <h2 class="glow-text">{{ node.title }}</h2>
+        {% endif %}
+        <p class="corrupted-text">{{ node.body|replace_static }}</p>
 
         <ul>
         {% for link in node.choices.all %}
-            <li>
+            <li class="corrupted-text">
                 {% if link.next_node %}
-                    <a href="{% url 'node_display' link.next_node.id %}">
+                    <a href="{% url 'node_display' link.next_node.id %}" alt="{{ link.text }}">
                         {{ link.text }}
                     </a>
                 {% else %}
@@ -28,11 +60,56 @@
             </li>
         {% endfor %}
         </ul>
-        <a href="{% url 'main' %}">Quit Game?</a>
-
+        <div class="navigation-bar">
+            <div class="navigation-box">
+                {% if global_corruption < 5 %}
+                    {% if node.previous_node %}
+                        <a href="{% url 'node_display' node.previous_node.id %}">Back</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="navigation-box">
+               {% include "storygraph/player.html" %}
+            </div>
+            <div class="navigation-box">
+                {% if global_corruption < 3 %}
+                    👽
+                {% elif global_corruption < 6 %}
+                    😈
+                {% else %}
+                    👹
+                {% endif %}
+            </div>
+            <div class="navigation-box">
+                <a href="{% url 'main' %}">Quit Game?</a>
+            </div>
+        </div>
     </div>
 </div>
 
-{% include "storygraph/player.html" %}
+{% if node.choices.count == 0 %}
+<!--
+A script that
+1. increases corruption slighly
+2. throws you back somewhere earlier.
+
+It's called when there are no choices left in the current node.
+-->
+<script type="text/javascript">
+function getRandomNode() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == XMLHttpRequest.DONE) {
+            window.location.href = xhttp.responseURL;
+        }
+    }
+    xhttp.open("GET", "{% url 'random_node' node.id %}", true);
+    xhttp.send();
+};
+setInterval(function () {
+    getRandomNode();
+}, 1 * 3000);
+</script>
+{% endif %}
 
 {% endblock %}
