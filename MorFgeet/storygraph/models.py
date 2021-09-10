@@ -54,13 +54,22 @@ class Node(models.Model):
     def add_link(self, link: "Link"):
         self.links.add(link)
 
+    @property
+    def previous_node(self):
+        if self.previous_choice.count() != 0:
+            return self.previous_choice.first().node
+
 
 class Link(models.Model):
     node = models.ForeignKey(
         "Node", on_delete=models.CASCADE, related_name="choices"
     )
     next_node = models.ForeignKey(
-        "Node", on_delete=models.SET_NULL, null=True, blank=True
+        "Node",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="previous_choice",
     )
 
     class Meta:
