@@ -1,10 +1,24 @@
+import os
+from pathlib import Path
+
 import storygraph.importer as imp
-from django.db import migrations
+from django.core.files import File
+from django.db import IntegrityError, migrations, transaction
+
+from MorFgeet.settings import MEDIA_ROOT
 
 
 def create_static(apps, schema_editor):
     Sound = apps.get_model("storygraph", "Sound")
-    Sound.objects.create(title="__static__")
+    sound_file = File(open(os.path.join(MEDIA_ROOT, "static.mp3"), "rb"))
+    try:
+        with transaction.atomic():
+            sound = Sound.objects.create(title="__static__", file=sound_file)
+            name = sound_file.file.name.split("/")[-1]
+            sound.file.save(name, sound_file)
+            sound.save()
+    except IntegrityError:
+        Sound.objects.create(title="__static__")
 
 
 def create_corruption(apps, schema_editor):

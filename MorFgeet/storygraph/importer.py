@@ -37,6 +37,9 @@ def import_story(nodes, links):
         if row[5] != "" and row[5] is not None:
             node.corruption_value = int(row[5])
             node.save()
+        if row[6] != "" and row[6] is not None:
+            node.title = row[6]
+            node.save()
 
     for row in links:
         node = Node.objects.get(position=int(row[3]))

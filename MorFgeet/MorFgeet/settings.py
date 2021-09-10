@@ -11,6 +11,8 @@ DEBUG = env.DEBUG
 SECRET_KEY = env.SECRET_KEY
 STATIC_URL = env.STATIC_URL
 MEDIA_ROOT = env.MEDIA_ROOT
+MEDIA_URL = env.MEDIA_URL
+SITE_DOMAIN = env.SITE_DOMAIN
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
