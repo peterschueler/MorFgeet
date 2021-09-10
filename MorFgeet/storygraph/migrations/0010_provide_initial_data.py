@@ -7,6 +7,11 @@ def create_static(apps, schema_editor):
     Sound.objects.create(title="__static__")
 
 
+def create_corruption(apps, schema_editor):
+    Corruption = apps.get_model("storygraph", "Corruption")
+    Corruption.objects.create()
+
+
 def import_story(apps, schema_editor):
     nodes, links = imp.parse_story("MorFgeet.csv")
     imp.import_story(nodes, links)
@@ -19,5 +24,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(create_static),
+        migrations.RunPython(create_corruption),
         migrations.RunPython(import_story),
     ]

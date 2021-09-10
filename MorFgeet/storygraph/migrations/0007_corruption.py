@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("level", models.IntegerField()),
+                ("level", models.IntegerField(default=0)),
             ],
             options={
                 "verbose_name": "Corruption",

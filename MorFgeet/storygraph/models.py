@@ -2,6 +2,7 @@ import uuid
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.urls import reverse
 
 
 # from https://stackoverflow.com/questions/49735906/how-to-implement-singleton-in-django
@@ -35,7 +36,7 @@ class DataBlock(models.Model):
 
 class NodeManager(models.Manager):
     def get_initial(self) -> "Node":
-        return Node.objects.get(position=0)
+        return Node.objects.all().order_by("position").first()
 
 
 class Node(models.Model):
@@ -50,6 +51,9 @@ class Node(models.Model):
     class Meta:
         verbose_name = "Node"
         verbose_name_plural = "Nodes"
+
+    def get_absolute_url(self):
+        return reverse("node_display", kwargs={"id": self.id})
 
     def add_link(self, link: "Link"):
         self.links.add(link)
@@ -116,7 +120,7 @@ class Corruption(SingletonModel):
 
     objects = CorruptionManager()
 
-    level = models.IntegerField()
+    level = models.IntegerField(default=MIN_LEVEL)
 
     class Meta:
         verbose_name = "Corruption"
