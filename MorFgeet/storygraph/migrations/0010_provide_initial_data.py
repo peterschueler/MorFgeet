@@ -13,7 +13,7 @@ def create_static(apps, schema_editor):
     sound_file = File(open(os.path.join(MEDIA_ROOT, "static.mp3"), "rb"))
     try:
         with transaction.atomic():
-            sound = Sound.objects.create(title="__static__", file=sound_file)
+            sound = Sound.objects.create(title="__static__")
             name = sound_file.file.name.split("/")[-1]
             sound.file.save(name, sound_file)
             sound.save()
